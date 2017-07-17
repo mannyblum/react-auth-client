@@ -1,5 +1,6 @@
-exports function signinUser({ email, password }) {
-  // submit email/password to server
+export function signinUser({ email, password }) {
+  return function(dispatch) {
+  // Submit email/password to server
 
   // If request is good...
   // - Update state to indicate user is authenticated
@@ -8,4 +9,6 @@ exports function signinUser({ email, password }) {
 
   // If request is bad ...
   // - Show an error to the user
+
+  };
 }
