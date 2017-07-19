@@ -4,8 +4,9 @@ import { connect } from 'react-redux';
 import * as actions from '../../actions';
 
 class Signup extends Component {
-  handleFormSubmit({ email, password, passwordConfirm }) {
-    this.props.signupUser({ email, password, passwordConfirm });
+  handleFormSubmit(formProps) {
+    // Call action creator sign up the user!
+    this.props.signupUser(formProps);
   }
 
   renderInput(field) {
@@ -21,8 +22,7 @@ class Signup extends Component {
   render() {
     const { handleSubmit } = this.props;
     return (
-      //<form onSubmit={handleSubmit(this.handleFormSubmit.bind(this))}>
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={handleSubmit(this.handleFormSubmit.bind(this))}>
         <fieldset className="form-group">
           <label>Email:</label>
           <Field name="email" component={this.renderInput} type="email" />
