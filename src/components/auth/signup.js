@@ -9,9 +9,11 @@ class Signup extends Component {
   }
 
   renderInput(field) {
+    const { type, input, meta: { error, touched } } = field;
     return (
       <div>
-        <input {...field.input} type={field.type} className="form-control" />
+        <input {...input} type={type} className="form-control" />
+        { touched && error && <div className="error">{error}</div> }
       </div>
     );
   }
@@ -19,7 +21,8 @@ class Signup extends Component {
   render() {
     const { handleSubmit } = this.props;
     return (
-      <form onSubmit={handleSubmit(this.handleFormSubmit.bind(this))}>
+      //<form onSubmit={handleSubmit(this.handleFormSubmit.bind(this))}>
+      <form onSubmit={handleSubmit}>
         <fieldset className="form-group">
           <label>Email:</label>
           <Field name="email" component={this.renderInput} type="email" />
@@ -40,5 +43,19 @@ class Signup extends Component {
   }
 }
 
-const signupForm = reduxForm({ form: 'signup' })(Signup);
-export default connect(null, actions)(signupForm);
+function validate(formProps) {
+  const errors = {};
+
+  if (formProps.password !== formProps.passwordConfirm) {
+    errors.password = 'Passwords must match';
+  }
+
+  return errors;
+}
+
+function mapStateToProps(state) {
+  return { errorMessage: state.auth.error };
+}
+
+const signupForm = reduxForm({ form: 'signup', validate })(Signup);
+export default connect(mapStateToProps, actions)(signupForm);
